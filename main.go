@@ -8,7 +8,7 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "ec2-session-manager [profile_name] [region]",
+	Use:   "ec2conn [profile_name] [region]",
 	Short: "Starts an AWS Systems Manager Session Manager session",
 	Args:  cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
