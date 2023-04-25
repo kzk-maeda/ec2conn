@@ -23,7 +23,7 @@ var rootCmd = &cobra.Command{
 
 		instances, err := getInstanceIDs(awsSession)
 		if err != nil {
-			fmt.Println("Error getting instance ID: %v", err)
+			fmt.Printf("Error getting instance ID: %v", err)
 		}
 
 		if len(instances) == 0 {
@@ -33,7 +33,7 @@ var rootCmd = &cobra.Command{
 
 		selectedInstance, err := decideConnectInstance(instances)
 		if err != nil {
-			fmt.Println("Error deciding connect instance: %v", err)
+			fmt.Printf("Error deciding connect instance: %v", err)
 		}
 
 		fmt.Printf("Selected instance: ID: %s, Name: %s\n", selectedInstance.ID, selectedInstance.Name)
