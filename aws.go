@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"os/signal"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -93,6 +94,20 @@ func startSessionWithCmd(instanceID, profileName, region string) error {
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
+
+	// Create a new signal catcher for SIGINT
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+
+	go func() {
+		for sig := range c {
+			fmt.Printf("Caught sig: %+v", sig)
+			if cmd.Process != nil {
+				cmd.Process.Signal(sig)
+			}
+		}
+	}()
+
 	err := cmd.Run()
 	if err != nil {
 		return fmt.Errorf("failed to start session: %v", err)
